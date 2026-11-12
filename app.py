@@ -3,151 +3,77 @@ import json, os, uuid
 from datetime import datetime
 app = Flask(__name__)
 
-# ============ UNIVERSITÉ COMPLÈTE - TOUTES MATIÈRES DOSSIERS DÉTAILLÉS ============
-UNIVERSITE = [
+COURS = [
 {
-"id":"intro_droit","matiere":"Introduction au Droit","niveau":"L1 S1","icon":"📖","desc":"Fondements, règle droit, branches, sources - Programme complet",
-"prog":[
-{"titre":"Chapitre 1: La Règle de Droit - Définition et Caractères","sections":[
-{"titre":"Section 1: Définition","sous":[
-{"titre":"Sous-section 1: Définition générale et distinction","lecon":"LEÇON INTÉGRALE: Le Droit est l'ensemble des règles qui organisent la vie en société et dont le respect est assuré par la puissance publique. Droit objectif = ensemble règles (ex: Code civil). Droits subjectifs = prérogatives individus (droit propriété, droit vote). Droit naturel = idéal justice ce qui devrait être (justice, équité), Droit positif = règles en vigueur ce qui est (lois guinéennes). En Guinée droit positif = Constitution 2020 + lois CNT + OHADA. Distinction règle droit vs morale: morale intérieure pas sanction État ex ne pas mentir, religion sanction divine, bienséance politesse. Règle droit sanctionnée police tribunal prison amende huissier."},
-{"titre":"Sous-section 2: Caractères règle droit","lecon":"LEÇON INTÉGRALE: 4 caractères: 1- Générale et abstraite: s'applique à tous et situations pas personne précise. Ex art 544 Code civil propriété s'applique tous propriétaires. 2- Obligatoire: doit être respectée pas facultative. 3- Sanctionnée par État: police, tribunal, prison, amende, huissier, force publique. 4- Permanente évolutive: dure mais change avec société. Ex loi sur internet nouvelle."}
+"id":"intro","matiere":"Introduction au Droit","niveau":"L1 S1","icon":"📖",
+"chapitres":[
+{"titre":"Chapitre 1: Définition et Caractères de la Règle de Droit",
+"sections":[
+{"titre":"Section 1: Définition de la Règle de Droit","lecon":"La règle de droit est une règle de conduite dans les rapports sociaux, générale, abstraite, obligatoire, dont le respect est assuré par la puissance publique. Elle se distingue de la règle morale qui est intérieure et non sanctionnée par l'État, de la règle religieuse dont la sanction est divine, et de la règle de bienséance qui est une règle de politesse. Le droit objectif désigne l'ensemble des règles qui régissent la vie des hommes en société. Les droits subjectifs désignent les prérogatives individuelles que le droit objectif reconnaît aux individus, par exemple le droit de propriété, le droit de vote, le droit de créance. Le droit naturel est l'idéal de justice, ce qui devrait être, tandis que le droit positif est l'ensemble des règles en vigueur dans un pays à un moment donné. En République de Guinée, le droit positif est constitué de la Constitution du 22 mars 2020, des lois votées par le Conseil National de la Transition, des ordonnances du Président de la République, des décrets et arrêtés, de la coutume très importante en milieu rural guinéen notamment en matière de mariage coutumier Malinké sous l'empire du Manden Kalikan, Peulh avec le Pulaaku, Soussou, du règlement des litiges fonciers par les sages, de la jurisprudence de la Cour Suprême et de la Cour Commune de Justice et d'Arbitrage d'Abidjan pour le droit OHADA, et de la doctrine des professeurs de droit."},
+{"titre":"Section 2: Caractères de la règle de droit","lecon":"La règle de droit présente quatre caractères fondamentaux. Premièrement, elle est générale et abstraite: elle vise toutes les personnes qui se trouvent dans une situation donnée et non une personne déterminée. Par exemple l'article 544 du Code civil qui définit la propriété s'applique à tous les propriétaires. Deuxièmement, elle est obligatoire: elle doit être respectée par tous sous peine de sanction. Troisièmement, elle est sanctionnée par l'État: le respect est assuré par la contrainte étatique, police, tribunal, prison, amende, huissier de justice, force publique. Quatrièmement, elle est permanente et évolutive: elle a vocation à durer mais elle évolue avec la société, exemple loi sur le cybercrime, loi sur la protection des données. On distingue la règle impérative qui s'impose absolument et dont on ne peut déroger par convention, exemple loi pénale, et la règle supplétive qui s'applique à défaut de volonté contraire des parties, exemple beaucoup de règles du Code civil en matière de contrat."},
+{"titre":"Section 3: Sources du droit guinéen","lecon":"Les sources du droit guinéen sont multiples. Sources nationales: La Constitution du 22 mars 2020 est la loi suprême avec 156 articles, au dessus de tout, avec primauté selon l'article 151. La loi est votée par le Conseil National de la Transition, promulguée par le Président de la République, publiée au Journal Officiel de la République. Son domaine est défini par l'article 68 de la Constitution: droits civiques, libertés publiques, impôts, etc. L'ordonnance est prise par le Président de la République dans le domaine de la loi en cas d'urgence avec autorisation du CNT. Le règlement est constitué des décrets du Président, des arrêtés des ministres, des décisions des préfets et maires. La coutume est une habitude ancienne, constante, notoire, avec l'opinio juris c'est à dire la croyance qu'elle est obligatoire. Très importante en Guinée rurale pour le mariage coutumier, le régime foncier coutumier, le règlement des conflits par les chefs coutumiers. Conditions de la coutume: ancienneté, constance, notoriété, opinio juris. La jurisprudence ce sont les décisions rendues par les Cours et Tribunaux, notamment la Cour Suprême de Guinée et la CCJA pour le droit OHADA, qui font référence et que les juges du TPI doivent suivre pour la sécurité juridique. La doctrine ce sont les avis des professeurs, les thèses, les articles. Sources internationales: Les traités internationaux ratifiés par la Guinée ont primauté sur la loi nationale selon l'article 151 de la Constitution 2020, par exemple le Pacte International relatif aux droits civils et politiques, la Convention contre la torture, le Traité OHADA. L'OHADA avec ses 10 Actes Uniformes a primauté sur les lois nationales pour le droit des affaires, c'est le droit de la comptabilité, du commerce, des sociétés, des sûretés, des procédures collectives, des voies d'exécution, de l'arbitrage, du transport, des coopératives, de la médiation. L'UEMOA, la CEDEAO avec sa Cour de Justice à Abuja, l'Union Africaine, l'ONU."}
 ]},
-{"titre":"Section 2: Sources Droit Guinéen","sous":[
-{"titre":"Sous-section 1: Sources nationales","lecon":"LEÇON INTÉGRALE: 1- Constitution 2020 suprême 156 articles au dessus tout primauté art 151. 2- Loi votée CNT Conseil National Transition promulguée Président publiée Journal Officiel domaine loi art 68: droits civiques, impôts, etc. 3- Ordonnance Président domaine loi urgence autorisation CNT. 4- Règlement Décret Président Arrêté Ministre Décision Préfet Maire. 5- Coutume habitude ancienne constante obligatoire très importante Guinée rurale ex mariage coutumier Malinké Manden Kalikan, Peulh Pulaaku, Soussou, règlement litiges terre sages. Conditions coutume: ancienneté, constance, notoriété, opinio juris croire obligatoire. 6- Jurisprudence décisions Cour Suprême et CCJA font référence juges TPI doivent suivre. 7- Doctrine avis professeurs thèses articles."},
-{"titre":"Sous-section 2: Sources internationales OHADA","lecon":"LEÇON INTÉGRALE: Traités internationaux ratifiés Guinée primauté sur loi nationale art 151 Constitution ex Pacte Droits Civils, Convention Torture, Traité OHADA. OHADA 10 Actes Uniformes primauté sur lois nationales pour affaires commerce sociétés sûretés. UEMOA CEDEAO UA ONU. Coutume internationale principes généraux droit international."}
-]}
-]},
-{"titre":"Chapitre 2: Branches du Droit","sections":[
-{"titre":"Section 1: Droit Public","sous":[
-{"titre":"Sous-section 1: Branches Droit Public","lecon":"LEÇON INTÉGRALE: Droit Public = règles organisant État et rapports État-citoyens but intérêt général inégalitaire État supérieur. Branches: Droit Constitutionnel Constitution pouvoirs droits fondamentaux QPC, Droit Administratif administration service public acte administratif REP recours excès pouvoir, Droit Pénal infractions peines procédure pénale, Droit Fiscal impôts IR IS TVA, Droit International Public États ONU traités responsabilité État, Finances Publiques budget État."}
-]},
-{"titre":"Section 2: Droit Privé","sous":[
-{"titre":"Sous-section 1: Branches Droit Privé","lecon":"LEÇON INTÉGRALE: Droit Privé = règles entre particuliers égalitaire but intérêt privé. Branches: Droit Civil personne famille biens obligations contrats, Droit Commercial commerçant actes commerce fonds commerce bail commercial OHADA, Droit du Travail contrat travail licenciement grève Tribunal Travail, Droit International Privé conflit lois juridictions nationalité exequatur. Droit mixte: Procédure civile pénale, Droit pénal public sanction mais privé victime."}
-]}
+{"titre":"Chapitre 2: Les Branches du Droit",
+"sections":[
+{"titre":"Section 1: Droit Public","lecon":"Le droit public est l'ensemble des règles qui organisent l'État et qui règlent les rapports entre l'État et les citoyens. Son but est l'intérêt général. Il est inégalitaire car l'État est supérieur aux citoyens. Ses branches sont: Le droit constitutionnel qui étudie la Constitution, les pouvoirs politiques, les droits fondamentaux, le contrôle de constitutionnalité, la QPC Question Prioritaire de Constitutionnalité. Le droit administratif qui étudie l'administration, le service public avec ses principes de continuité, égalité, mutabilité, l'acte administratif unilatéral comme le décret du Président ou l'arrêté du ministre, le contrat administratif comme le marché public, le recours pour excès de pouvoir devant le Tribunal Administratif dans un délai de 2 mois, le plein contentieux, la responsabilité de l'administration pour faute simple ou lourde ou sans faute pour risque et rupture d'égalité. Le droit pénal qui détermine les infractions et les peines, principe de légalité pas d'infraction sans loi, non rétroactivité. Le droit fiscal qui étudie les impôts directs comme l'impôt sur le revenu, l'impôt sur les sociétés, et indirects comme la TVA à 18% en Guinée, la douane. Le droit international public qui étudie les États, les organisations internationales comme l'ONU avec son Conseil de Sécurité à 5 membres permanents avec droit de veto, Assemblée Générale, Cour Internationale de Justice à La Haye, l'Union Africaine, la CEDEAO, les traités, la coutume internationale, la responsabilité de l'État pour fait internationalement illicite. Les finances publiques qui étudient le budget de l'État, loi de finances votée par le CNT, principes d'annualité, unité, universalité, spécialité, recettes et dépenses, exécution par ordonnateur et comptable public, contrôle Cour des Comptes."},
+{"titre":"Section 2: Droit Privé et Droit Mixte","lecon":"Le droit privé est l'ensemble des règles qui régissent les rapports entre particuliers. Il est égalitaire et son but est l'intérêt privé. Ses branches sont: Le droit civil qui est le droit commun, qui étudie la personne physique être humain sujet de droit dès la naissance vivante viable jusqu'à la mort avec ses attributs nom prénom domicile nationalité patrimoine, la personne morale société association État avec personnalité distincte création RCCM, la famille mariage conditions âge 18 ans consentement monogamie ou polygamie optionnelle en Guinée divorce faute ou consentement mutuel filiation autorité parentale, les biens meubles et immeubles corporels incorporels propriété article 544 usus fructus abusus usufruit servitudes, les obligations et contrats. Le droit commercial qui étudie le commerçant article 2 AUDCG personne qui fait actes de commerce par nature à titre de profession habituelle, les actes de commerce par nature achat meubles pour revendre banque assurance transport intermédiaire construction spectacle télécom, par forme lettre de change billet à ordre société commerciale, par accessoire fait par commerçant pour son commerce, le fonds de commerce article 135 AUDCG ensemble clientèle et achalandage essentiel sans clientèle pas de fonds nom commercial enseigne droit au bail matériel marchandises brevets, le bail commercial article 69 AUDCG durée minimum 2 ans droit au renouvellement indemnité d'éviction valeur fonds sauf motif grave non paiement non exploitation démolition loyer révisable tous les 3 ans. Le droit du travail qui étudie le contrat de travail CDI règle générale CDD exception maximum 2 ans renouvelable période d'essai, les obligations employeur payer salaire sécurité employé travailler loyauté, le licenciement motif réel et sérieux procédure convocation entretien préalable lettre licenciement préavis certificat travail solde tout compte reçu solde tout compte, démission volonté claire, rupture conventionnelle, grève droit constitutionnel préavis service minimum, Inspection du Travail à Kaloum ou Matam gratuit conciliation, Tribunal du Travail au TPI. Le droit international privé qui étudie le conflit de lois quand litige avec élément étranger par exemple mariage Guinéen Française quelle loi appliquer, règles statut personnel loi nationalité biens immeubles loi lieu situation contrats loi choisie parties, le conflit de juridictions quel tribunal compétent nationalité domicile lieu fait, l'exequatur jugement étranger doit être reconnu par le TPI de Guinée pour être exécuté, la nationalité guinéenne par filiation père ou mère ou naturalisation décret Président 5 ans résidence double nationalité tolérée. Droit mixte: La procédure civile et la procédure pénale, le droit pénal qui est public par sa sanction mais privé par la victime."}
 ]
 }
 ]
 },
 {
-"id":"const","matiere":"Droit Constitutionnel","niveau":"L1 S1-S2","icon":"🏛️","desc":"État, Constitution 2020, pouvoirs, droits, QPC, révision",
-"prog":[
-{"titre":"Chapitre 1: Théorie État","sections":[
-{"titre":"Section 1: Éléments État","sous":[
-{"titre":"Sous-section 1: Territoire Population Pouvoir","lecon":"LEÇON INTÉGRALE: Territoire terrestre sol sous-sol maritime 12 miles mer territoriale + 200 miles ZEE aérien frontières délimitées. Population nationale citoyens guinéens filiation père/mère ou naturalisation décret Président 5 ans résidence et étrangère peuple ensemble citoyens. Pouvoir politique souverain interne suprême pas pouvoir au dessus externe indépendance pas soumis autre État. Personnalité juridique État. Souveraineté appartient peuple art 2 Constitution Guinée 2020 exercée représentants ou référendum. État unitaire Guinée un seul centre pouvoir mais décentralisé communes régions vs fédéral USA Allemagne États fédérés + État fédéral. Centralisé vs décentralisé. État droit respect hiérarchie normes Constitution sommet."}
-]}
-]},
-{"titre":"Chapitre 2: Constitution 2020","sections":[
-{"titre":"Section 1: Contenu","sous":[
-{"titre":"Sous-section 1: Principes et droits","lecon":"LEÇON INTÉGRALE: Titre 1 Principes: Guinée État laïc démocratique indivisible social. Drapeau Rouge Jaune Vert hymne Liberté devise Travail Justice Solidarité langue officielle français. Titre 2 Droits Devoirs art 5-50: droits civils vie liberté égalité propriété présomption innocence habeas corpus, droits politiques vote 18 ans éligibilité manifestation parti pétition, droits économiques sociaux travail grève syndicat éducation santé, devoirs respecter Constitution payer impôts défendre patrie protéger environnement."},
-{"titre":"Sous-section 2: Pouvoirs","lecon":"LEÇON INTÉGRALE: Exécutif Président République élu 5 ans renouvelable 1 fois suffrage universel direct conditions 35 ans nationalité guinéenne parrainages nomme Premier Ministre Gouvernement proposition PM préside Conseil Ministres décrets domaine réservé défense diplomatie peut dissoudre Assemblée état siège. Législatif actuellement CNT Conseil National Transition 81 membres demain Assemblée Nationale députés élus 5 ans vote lois art 68 budget contrôle Gouvernement questions commission enquête motion censure. Judiciaire indépendant juges inamovibles Cours Tribunaux Cour Suprême sommet 4 chambres Cour Constitutionnelle 9 membres contrôle constitutionnalité lois élections Conseil Supérieur Magistrature discipline juges."}
-]},
-{"titre":"Section 2: Révision et QPC","sous":[
-{"titre":"Sous-section 1: Révision et contrôle","lecon":"LEÇON INTÉGRALE: Révision procédure très difficile éviter dictature: Initiative Président ou 2/3 CNT vote CNT majorité 2/3 puis référendum peuple oui/non. Limites pas révision forme républicaine laïcité intégrité territoire durée mandat Président. QPC Question Prioritaire Constitutionnalité art 95 devant tout tribunal TPI partie dit loi applicable contraire Constitution juge transmet Cour Suprême filtre puis Cour Constitutionnelle 3 mois si inconstitutionnelle loi abrogée pour tous effet erga omnes à compter décision ou plus tard. Puissant outil citoyen! Contrôle a priori Président 1/3 députés PM peuvent saisir Cour Constit avant promulgation loi."}
-]}
+"id":"const","matiere":"Droit Constitutionnel","niveau":"L1","icon":"🏛️",
+"chapitres":[
+{"titre":"Chapitre 1: Théorie de l'État",
+"sections":[
+{"titre":"Section 1: Éléments constitutifs de l'État","lecon":"L'État est constitué de trois éléments. Premièrement le territoire: terrestre avec sol et sous-sol, maritime avec mer territoriale 12 miles marins et Zone Économique Exclusive 200 miles, aérien avec espace aérien au dessus du territoire, frontières délimitées par traités. Deuxièmement la population: population nationale constituée des citoyens guinéens par filiation père ou mère ou naturalisation par décret du Président après 5 ans de résidence et étrangers, peuple ensemble des citoyens. Troisièmement le pouvoir politique souverain: interne suprême pas de pouvoir au dessus, externe indépendance pas soumis à un autre État. Personnalité juridique de l'État, l'État est une personne morale. Souveraineté appartient au peuple article 2 Constitution Guinée 2020 exercée par ses représentants ou par voie de référendum. État unitaire comme la Guinée un seul centre de pouvoir mais décentralisé avec communes et régions avec autonomie, versus État fédéral comme USA Allemagne avec États fédérés plus État fédéral, chaque niveau a ses compétences. Centralisé versus décentralisé. État de droit signifie respect de la hiérarchie des normes avec Constitution au sommet, principe de légalité administration doit respecter loi, contrôle juridictionnel."},
+{"titre":"Section 2: Constitution","lecon":"La Constitution est la loi suprême qui organise les pouvoirs publics et garantit les droits fondamentaux. Constitution écrite comme Guinée 2020 versus coutumière comme Angleterre. Rigide révision difficile référendum versus souple révision loi ordinaire. Originaire crée nouvel ordre versus dérivée révise existante. La Guinée a eu 4 Constitutions: 1958 indépendance Sékou Touré, 1990 ouverture démocratique Lansana Conté, 2010 après transition, 2020 4ème République. Contenu Constitution 2020: Titre 1 Principes Guinée État laïc démocratique indivisible social, drapeau Rouge Jaune Vert, hymne Liberté, devise Travail Justice Solidarité, langue officielle français, capitale Conakry. Titre 2 Droits et Devoirs articles 5 à 50: droits civils vie liberté égalité propriété présomption innocence habeas corpus interdiction torture, droits politiques vote 18 ans éligibilité manifestation pacifique parti politique pétition, droits économiques sociaux travail grève syndicat éducation santé logement, devoirs respecter Constitution payer impôts défendre patrie protéger environnement. Pouvoirs: Exécutif Président République élu 5 ans renouvelable 1 fois suffrage universel direct conditions 35 ans nationalité guinéenne jouissance droits civils parrainages, nomme Premier Ministre et Gouvernement sur proposition PM, préside Conseil Ministres, prend décrets, domaine réservé défense diplomatie, peut dissoudre Assemblée Nationale, état de siège état d'urgence, Législatif actuellement CNT Conseil National Transition 81 membres demain Assemblée Nationale députés élus 5 ans vote lois article 68 budget contrôle Gouvernement questions écrites orales commission enquête motion censure, Judiciaire indépendant juges inamovibles Cours Tribunaux Cour Suprême sommet 4 chambres judiciaire administrative constitutionnelle comptes Cour Constitutionnelle 9 membres contrôle constitutionnalité lois et élections contentieux électoral Conseil Supérieur Magistrature discipline juges."},
+{"titre":"Section 3: Contrôle de constitutionnalité et QPC","lecon":"La révision de la Constitution est une procédure très difficile pour éviter les dictatures. Initiative Président de la République ou 2/3 membres CNT, vote CNT à majorité 2/3, puis référendum du peuple oui ou non. Limites matérielles: pas révision forme républicaine, laïcité, intégrité territoire, durée mandat Président, nombre mandats. Contrôle de constitutionnalité: a priori avant promulgation loi Président, 1/3 députés, Premier Ministre peuvent saisir Cour Constitutionnelle, a posteriori par voie d'exception QPC Question Prioritaire de Constitutionnalité article 95: devant tout tribunal TPI partie au procès dit loi applicable à son litige contraire à la Constitution, juge transmet à la Cour Suprême qui filtre puis à la Cour Constitutionnelle dans délai 3 mois, si inconstitutionnelle loi abrogée pour tous effet erga omnes à compter de la décision ou à date ultérieure fixée par Cour. C'est un puissant outil citoyen pour protéger droits. Exemple concret: si loi sur presse contraire liberté expression Constitution, avocat soulève QPC devant TPI, TPI transmet, Cour Constit déclare loi inconstitutionnelle, loi disparaît Journal Officiel."}
 ]
 }
 ]
 },
 {
-"id":"civil_oblig","matiere":"Droit des Obligations","niveau":"L2 S3","icon":"⚖️","desc":"Contrat, formation, effets, inexécution, responsabilité, preuve",
-"prog":[
-{"titre":"Chapitre 1: Contrat - Définition et Formation","sections":[
-{"titre":"Section 1: Définition","sous":[
-{"titre":"Sous-section 1: Obligation et Contrat art 1101","lecon":"LEÇON INTÉGRALE: Obligation = lien droit entre 2 personnes oblige l'une envers autre à donner transférer propriété, faire construire maison, ne pas faire non concurrence. Sources obligations: contrat accord, responsabilité délictuelle art 1240 tout fait causant dommage oblige réparer, quasi-contrat gestion affaire paiement indu enrichissement sans cause, loi. Contrat définition art 1101 Code civil accord volontés entre 2+ personnes destiné créer modifier transmettre éteindre obligations. Classification synallagmatique obligations réciproques vente vendeur livre acheteur paie vs unilatéral donation une seule obligation. À titre onéreux échange avantage vente vs gratuit donation. Consensuel accord seul suffit vs solennel formalités notaire vente immeuble vs réel remise chose dépôt. Nommé vente bail prévu Code vs innommé. Négociation pourparlers offre précise ferme acceptation promesse unilatérale."},
-]},
-{"titre":"Section 2: 4 Conditions validité art 1128","sous":[
-{"titre":"Sous-section 1: Consentement art 1129-1144","lecon":"LEÇON INTÉGRALE: Consentement libre éclairé. Vices: Erreur art 1132 fausse représentation réalité erreur sur substance qualité essentielle ex acheter vase croit or mais toc = annulation erreur obstacle nature contrat = nullité. Dol art 1137 tromperie manœuvres mensonge pour faire signer ex vendeur cache accident voiture = annulation + dommages. Violence art 1140 contrainte physique menacer frapper ou morale menacer licenciement = annulation. Preuve vices tout moyen. Lésion déséquilibre prix seulement mineur ou incapacité."},
-{"titre":"Sous-section 2: Capacité Objet Cause","lecon":"LEÇON INTÉGRALE: Capacité art 1145 majeur 18 ans capable mineur incapable sauf émancipation mariage juge majeur sous tutelle curatelle sanction nullité relative. Objet art 1163 chose prestation doit être certaine déterminée possible licite pas drogue pas corps humain. Cause art 1162 raison déterminante doit être licite pas tuer pas fraude. Si manque = nullité absolue intérêt général 30 ans ou relative intérêt privé 5 ans rétroactif censé jamais existé restitution."}
-]}
-]},
-{"titre":"Chapitre 2: Effets et Inexécution","sections":[
-{"titre":"Section 1: Effets art 1193-1199","sous":[
-{"titre":"Sous-section 1: Force obligatoire","lecon":"LEÇON INTÉGRALE: Force obligatoire art 1103 contrat = loi entre parties doit être exécuté bonne foi art 1104 Juge ne peut modifier. Exception imprévision art 1195 si changement circonstances imprévisible rend exécution excessivement onéreuse partie peut demander renégociation à défaut juge peut adapter ou mettre fin. Effet relatif art 1199 contrat entre parties seulement pas tiers sauf stipulation pour autrui promettant s'engage envers tiers bénéficiaire et promesse porte-fort."}
-]},
-{"titre":"Section 2: Inexécution","sous":[
-{"titre":"Sous-section 1: Sanctions inexécution","lecon":"LEÇON INTÉGRALE: Mise en demeure préalable obligatoire art 1344 lettre huissier ou recommandée exige exécuter 8 jours. Sanctions: Exécution forcée nature juge ordonne sous astreinte, Exception inexécution art 1219 si autre n'exécute pas tu suspends, Résolution art 1224 anéantissement contrat pour inexécution grave judiciaire juge ou unilatérale notification ou clause résolutoire, Dommages intérêts art 1231 compensatoires remplacent exécution moratoires retard conditions faute + dommage + lien causal prévisibles sauf faute lourde. Clause pénale forfaitaire clause limitative responsabilité valable sauf faute lourde."}
-]}
+"id":"ohada","matiere":"Droit OHADA Intégral","niveau":"L2-L3","icon":"🌍",
+"chapitres":[
+{"titre":"Chapitre 1: Traité OHADA et Institutions",
+"sections":[
+{"titre":"Section 1: Traité fondateur","lecon":"Le Traité relatif à l'harmonisation du droit des affaires en Afrique a été signé à Port-Louis le 17 octobre 1993 et révisé à Québec le 17 octobre 2008. Il regroupe 17 pays: Bénin, Burkina Faso, Cameroun, République Centrafricaine, Comores, Congo Brazzaville, République Démocratique du Congo, Côte d'Ivoire, Gabon, Guinée Conakry, Guinée-Bissau, Guinée Équatoriale, Mali, Niger, Sénégal, Tchad, Togo, soit 300 millions d'habitants. Objectif: harmoniser le droit des affaires pour assurer la sécurité juridique et judiciaire afin d'attirer les investissements et favoriser l'intégration économique. Principes: supranationalité l'OHADA au dessus des États, applicabilité directe pas besoin de loi nationale pour appliquer Acte Uniforme, primauté de l'OHADA sur les lois nationales contraires pour le droit des affaires. En Guinée applicable depuis 2000 directement devant le TPI de Conakry section commerce. Institutions: Conférence des Chefs d'État et de Gouvernement sommet tous les 2 ans définit politique, Conseil des Ministres de la Justice et des Finances des 17 pays décide des Actes Uniformes à l'unanimité, Secrétariat Permanent à Yaoundé Cameroun administration préparation Actes, Cour Commune de Justice et d'Arbitrage CCJA à Abidjan Côte d'Ivoire 13 juges élus 7 ans renouvelable inamovibles assure interprétation uniforme et cassation, ERSUMA École Régionale Supérieure de la Magistrature à Porto-Novo Bénin forme juges et greffiers OHADA."},
+{"titre":"Section 2: Actes Uniformes détaillés","lecon":"10 Actes Uniformes même loi partout: 1- AUDCG Acte Uniforme Droit Commercial Général du 15 décembre 2010 307 articles: commerçant article 2 personne qui fait actes de commerce par nature à titre de profession habituelle, actes de commerce par nature achat meubles pour revendre banque assurance transport intermédiaire construction spectacle télécom, par forme lettre de change billet à ordre société commerciale, par accessoire fait par commerçant pour son commerce, prescription commerciale 5 ans article 16, obligations commerçant immatriculation RCCM comptabilité NIF patente, RCCM article 19 à 74 Registre Commerce et Crédit Mobilier tenu par greffe TPI ou APIP Guinée fichier national et régional OHADA mentions état civil nationalité activité adresse succursales régime matrimonial sûretés nantissement gage procédures collectives public extrait Kbis, formalités immatriculation formulaire CNI casier judiciaire certificat résidence statuts 500k FCFA délai 48h modification 30 jours radiation cessation décès dissolution sanction pas immatriculé pas qualité commerçant pas accès tribunaux commerce amende pénale, bail commercial article 69 à 134 bail immeuble où exploite fonds de commerce écrit obligatoire durée minimum 2 ans si moins de 2 ans bail courte durée pas droit renouvellement loyer libre révision triennale selon indice coût construction ou chiffre d'affaires charges impôts fonciers propriétaire sauf clause réparations locatives locataire grosses réparations propriétaire droit au renouvellement locataire 2 ans exploitation droit renouvellement propriétaire refuse seulement motif grave non paiement non exploitation démolition sinon indemnité d'éviction valeur fonds de commerce plus frais déménagement cession bail libre avec fonds de commerce sinon autorisation propriétaire sous-location autorisée si clause ou accord, fonds de commerce article 135 à 171 ensemble biens affectés activité clientèle et achalandage essentiel sans clientèle pas de fonds nom commercial enseigne droit au bail matériel marchandises brevets licences nature meuble incorporel opérations vente fonds écrit prix état créances dettes publicité journal annonces légales JAL dans 15 jours inscription RCCM séquestre prix chez notaire ou banque pendant 3 mois pour oppositions créanciers vendeur si opposition prix bloqué jusqu'accord ou jugement nantissement fonds sûreté pour crédit inscrit RCCM si impayé créancier vend fonds. 2- AUSCGIE Sociétés Commerciales et GIE du 30 janvier 2014 920 articles: SARL 1 à 100 associés SARL unipersonnelle possible capital minimum 1 million FCFA parts sociales égales minimum 5k FCFA apports numéraire libéré 50% constitution solde 2 ans nature voiture immeuble évaluation commissaire aux apports si plus de 5 millions industrie travail savoir-faire pas capital mais donne droit bénéfices statuts dénomination siège objet durée 99 ans maximum capital apports gérance AG dépôt RCCM APIP annonce légale NIF CNSS 1 mois gérant personne physique associée ou non nommé statuts ou AG 50% pouvoirs larges agit au nom SARL responsabilité civile faute gestion et pénale abus biens sociaux banqueroute révocation AG majorité décisions AG ordinaire annuelle dans 6 mois clôture approbation comptes affectation résultat quitus gérant extra modification statuts 75% consultation écrite cession parts entre associés libre à tiers agrément associés majorité 50% sinon rachat dissolution terme objet réalisé décision associés 75% justice mésentente paralysie perte 50% capital non reconstitué nombre associés supérieur 100 réunion toutes parts en une main liquidation liquidateur nommé AG ou justice vend biens paie dettes boni liquidation partagé associés radiation RCCM, SA 1 actionnaire minimum capital minimum 10 millions FCFA 100 millions si appel public épargne actions valeur nominale minimum 10k libérées 25% constitution apports commissaire aux apports déclaration notariée AG constitutive si appel épargne RCCM avantages capitaux importants responsabilité limitée actions administration Conseil Administration 3 à 12 membres actionnaires ou non élit Président Directeur Général PDG ou dissocie Président Conseil et Directeur Général pouvoirs responsabilité civile pénale révocation ou Administrateur Général si moins de 3 actionnaires SARL SA simplifiée Assemblées AG ordinaire annuelle comptes AG extraordinaire modification statuts AG spéciale actionnaires catégorie quorum majorité commissaire aux comptes obligatoire si bilan supérieur 125 millions ou chiffre d'affaires supérieur 250 millions ou effectif supérieur 50 contrôle comptes alerte rapport valeurs mobilières actions ordinaires préférence obligations emprunt, SAS très libre statuts fixent tout président pas conseil idéal startups filiales étrangères, SNC associés commerçants responsabilité indéfinie solidaire, GIE 2+ personnes faciliter activité membres pas bénéfices. 3- AUS Sûretés du 15 décembre 2010 302 articles garanties paiement dette personnelles cautionnement article 13 à 49 contrat caution s'engage envers créancier payer si débiteur ne paie pas écrit obligatoire mention somme garantie à peine nullité simple bénéfice discussion créancier doit d'abord poursuivre débiteur saisir biens puis caution bénéfice division si plusieurs cautions chacune part solidaire créancier va direct caution sans poursuivre débiteur plus utilisé banques Guinée proportionné revenus caution sinon déchéance information annuelle caution par créancier extinction dette principale payée terme caution décharge par créancier prescription caution paye subrogée dans droits créancier contre débiteur recours, lettre garantie autonome indépendant dette, réelles droit rétention article 67 à 70 retient bien jusqu'à paiement garagiste, gage article 92 meuble corporel voiture stock avec ou sans dépossession inscrit RCCM, nantissement article 125 meuble incorporel fonds de commerce actions compte bancaire créance inscrit RCCM utilisé Guinée crédit commerçant, propriété retenue réserve propriété vendeur reste propriétaire jusqu'à paiement complet, hypothèque article 190 immeuble maison terrain notariée inscrite Conservation Foncière Kaloum conventionnelle accord forcée jugement légale loi vendeur impayé copropriété assiette immeuble bâti ou non droit emphytéose usufruit inscription bordereau acte notarié 10 ans renouvelable coût 2% montant rang ordre inscription première inscrite payée première cession antériorité effets droit préférence payé avant chirographaires sur prix vente droit suite suit immeuble même vendu à tiers réalisation impayé commandement payer saisie immobilière TPI vente judiciaire enchères distribution prix selon rang extinction dette payée prescription 10 ans inscription non renouvelée renonciation. 4- AUPC Procédures Collectives du 10 septembre 2015 378 articles entreprise en difficulté cessation paiements impossible faire face passif exigible avec actif disponible déclaration 30 jours TPI sinon responsabilité personnelle interdiction gérer 3 procédures mandat ad hoc conciliation préventif confidentiel pas encore cessation demande Président TPI mandataire ad hoc négocier créanciers accord amiable, redressement judiciaire cessation mais redressement possible jugement ouvre Juge-Commissaire Syndic Représentant créanciers période observation 6 à 18 mois gel dettes antérieures continue activité licenciements contrôlés recherche plan cession partielle rééchelonnement dettes sur 10 ans si plan possible Tribunal arrête plan redressement sinon liquidation, liquidation biens irrémédiablement compromise jugement dessaisit dirigeant Syndic vend tous biens licencie paie créanciers ordre salariés super privilégiés 6 derniers mois frais justice hypothécaires nantis chirographaires clôture extinction passif insuffisance actif sanctions dirigeants faillite personnelle interdiction gérer banqueroute responsabilité insuffisance actif combler passif sur biens perso faute gestion. 5- AUCE Voies d'Exécution du 10 avril 1998 338 articles comment récupérer argent après jugement ou facture impayée titre exécutoire jugement arrêt acte notarié chèque impayé lettre de change protestée mesures conservatoires avant jugement saisie conservatoire biens meubles ou créances bloque compte sur autorisation Juge empêcher débiteur vider patrimoine saisies exécution après jugement attribution article 77 plus utilisée huissier bloque compte bancaire débiteur et attribue somme au créancier procédure commandement payer 8 jours puis huissier va banque banque bloque déclare solde verse si compte vide échec coût huissier 100 à 200k, vente article 109 saisit meubles corporels voiture TV stock domicile inventaire vend aux enchères insaisissables vêtements lit nourriture 1 mois outils travail, immobilière article 246 saisit maison terrain vente judiciaire TPI 1 à 2 ans coûteux mais récupère grosses sommes hypothèque facilite, rémunération saisit salaire chez employeur quotité saisissable selon salaire, appréhension revendication récupérer bien qui t'appartient, injonction de payer article 1 à 18 procédure rapide pour créance certaine liquide exigible facture impayée billet à ordre requête au Président TPI ordonnance injonction signification débiteur qui a 15 jours opposition sinon devient exécutoire très efficace Guinée pour dettes commerciales non contestées pas besoin avocat, injonction de délivrer restituer pour obliger livrer marchandise, astreinte article 33 somme par jour retard exécution exemple 200k par jour jusqu'à libérer maison fixée juge liquidée ensuite, huissier seul peut saisir coût 10% somme récupérée délai exécution jugement 10 ans prescription. 6- AUA Arbitrage du 11 mars 1999 36 articles justice privée parties en litige décident ne pas aller au TPI mais confier à arbitre privé qu'elles choisissent rapide confidentiel expert international convention arbitrage clause compromissoire dans contrat avant litige ou compromis après litige doit être écrite désigne arbitres ou mode désignation tribunal arbitral 1 ou 3 arbitres indépendants impartiaux procédure fixée par parties ou règlement CCJA siège arbitrage Conakry Abidjan Paris détermine loi procédure demande arbitrage réponse échange mémoires audience sentence dans 6 mois prolongeable respect contradictoire droits défense sentence arbitrale décision arbitres motivée écrite signée effet comme jugement obligatoire exequatur Président TPI rend exécutoire vérifie pas contraire ordre public recours pas appel seulement annulation devant CCJA ou TPI pour vice grave arbitre partial pas respect contradictoire CCJA arbitrage CCJA Abidjan propose centre arbitrage règlement CCJA liste arbitres administre procédure sentence CCJA définitive avantages rapidité 6 mois versus 2 ans TPI Conakry confidentialité pas public expertise choisis arbitre spécialiste OHADA neutralité pour litige Guinée étranger exécution internationale Convention New York 1958 sentence exécutable dans 170 pays coût frais arbitres centre avocats plus cher que TPI mais plus rapide clause type Tout litige relatif présent contrat sera tranché par arbitrage CCJA Abidjan selon Règlement arbitrage CCJA très utilisé contrats miniers télécom BTP avec étrangers. 7 à 10- Comptabilité SYSCOHADA plan comptable obligatoire bilan compte résultat annexes normes proches IFRS commissaire comptes vérifie, Transport marchandises route contrat responsabilité transporteur lettre voiture avarie prescription 1 an, Sociétés coopératives épargne agricoles rurales Guinée, Médiation mode amiable résolution litiges médiateur neutre accord médiation exécutoire. CCJA Abidjan 13 juges élus 7 ans renouvelable inamovibles tous pays compétences cassation pourvoi contre arrêt Cour Appel statuant en matière OHADA délai 2 mois casse arrêt et PEUT ÉVOQUER elle rejuge elle-même au fond pas renvoi décision finale s'impose révolution avis consultatif à demande État ou juridiction arbitrage administre arbitrages nomme arbitres exequatur sentences procédure requête mémoires audience publique Abidjan arrêt motivé frais 2 millions FCFA avocat agréé CCJA obligatoire liste jurisprudence référence ohada.com très riche doit être connue juges guinéens Guinée si tu perds en Appel Conakry sur affaire OHADA société commerce sûreté ne va pas Cour Suprême Guinée incompétente OHADA mais CCJA Abidjan beaucoup avocats se trompent."}
 ]
 }
 ]
-},
-{
-"id":"penal","matiere":"Droit Pénal Général","niveau":"L2 S3","icon":"🔨","desc":"Infraction, crime délit contravention, responsabilité, peines",
-"prog":[
-{"titre":"Chapitre 1: Infraction","sections":[
-{"titre":"Section 1: Classification","sous":[
-{"titre":"Sous-section 1: Crime Délit Contravention","lecon":"LEÇON INTÉGRALE: Infraction = acte interdit loi pénale puni peine. Classification tripartite: CRIME grave meurtre viol vol main armée trafic drogue peine réclusion 10 ans à perpétuité ou mort moratoire juridiction Cour Assises jury instruction obligatoire prescription 10 ans. DÉLIT moyen vol simple escroquerie abus confiance coups blessures diffamation peine emprisonnement 1 mois à 10 ans + amende TPI Correctionnel prescription 3 ans. CONTRAVENTION légère tapage injure non publique divagation animaux peine amende 1ère à 5ème classe 5k à 1M Simple Police prescription 1 an. Éléments constitutifs: légal texte prévoit infraction principe légalité pas infraction sans loi, matériel acte concret tuer voler, moral intention dol ou faute imprudence sans intention pas infraction sauf contravention."}
-]}
-]},
-{"titre":"Chapitre 2: Responsabilité et Peines","sections":[
-{"titre":"Section 1: Responsabilité pénale","sous":[
-{"titre":"Sous-section 1: Personnes et causes irresponsabilité","lecon":"LEÇON INTÉGRALE: Personne physique responsable si discernement cause irresponsabilité démence art 122-1, minorité <13 ans irresponsable 13-18 atténuation, contrainte physique morale, légitime défense. Personne morale société peut être condamnée pénalement depuis Code pénal 2016 peine amende + dissolution interdiction. Complice même peine auteur, tentative si commencement exécution + désistement involontaire punie comme infraction consommée."},
-{"titre":"Sous-section 2: Peines","lecon":"LEÇON INTÉGRALE: Peines principales prison amende mort moratoire. Peines complémentaires interdiction séjour confiscation interdiction droits civiques. Peines alternatives travail intérêt général TIG jours-amende. Personnalisation peine juge tient compte circonstances. Sursis simple pas prison si pas nouvelle infraction 5 ans sursis mise épreuve obligations travail soins indemniser victime si respecte effacée casier si récidive révoqué. Libération conditionnelle sors avant fin peine bonne conduite. Grâce Président, amnistie loi efface condamnation."}
-]}
-]
 }
-]
-},
-{
-"id":"ohada","matiere":"Droit OHADA","niveau":"L2-L3","icon":"🌍","desc":"10 Actes Uniformes complets détaillés chapitres sections",
-"prog":[
-{"titre":"Chapitre 1: AUDCG Commerce Général 307 art","sections":[
-{"titre":"Section 1: Commerçant","sous":[
-{"titre":"Sous-section 1: Définition","lecon":"LEÇON INTÉGRALE: Art 2 Commerçant = personne qui fait actes commerce par nature à titre profession habituelle. Capacité majeur 18 ans ou mineur émancipé pas incompatible fonctionnaire avocat. Obligations RCCM dans mois début activité comptabilité SYSCOHADA NIF patente compte bancaire. Perte qualité cessation décès interdiction faillite. Actes commerce par nature achat meubles pour revendre banque assurance transport intermédiaire construction spectacle télécom. Par forme lettre change billet à ordre société commerciale. Par accessoire fait par commerçant pour commerce. Prescription commerce 5 ans art 16."},
-{"titre":"Sous-section 2: RCCM et Bail","lecon":"LEÇON INTÉGRALE: RCCM art 19-74 Registre tenu greffe TPI ou APIP Guinée fichier national régional OHADA Mentions état civil nationalité activité adresse succursales régime matrimonial sûretés procédures collectives Public extrait Kbis Formalités immatriculation formulaire CNI casier certificat résidence statuts 500k 48h modification 30j radiation cessation décès dissolution Sanction pas immatriculé pas commerçant pas tribunaux commerce amende pénale. Bail commercial art 69-134 Bail immeuble fonds commerce écrit obligatoire durée min 2 ans si <2 ans courte durée pas renouvellement Loyer libre révision triennale indice construction chiffre affaires Charges impôts fonciers propriétaire sauf clause Droit renouvellement locataire 2 ans exploitation droit renouvellement propriétaire refuse seulement motif grave non paiement non exploitation démolition sinon indemnité éviction valeur fonds + déménagement Cession libre avec fonds sinon autorisation Sous-location autorisée si clause."}
-]}
-]},
-{"titre":"Chapitre 2: AUSCGIE Sociétés 920 art","sections":[
-{"titre":"Section 1: SARL","sous":[
-{"titre":"Sous-section 1: SARL Constitution Fonctionnement","lecon":"LEÇON INTÉGRALE: SARL art 309-384 1-100 associés SARL unipersonnelle possible Capital min 1M FCFA parts égales min 5k Apports numéraire libéré 50% constitution solde 2 ans nature voiture immeuble évaluation commissaire apports si >5M industrie travail savoir-faire pas capital mais bénéfices Statuts dénomination siège objet durée 99 ans max capital apports gérance AG Dépôt RCCM APIP annonce légale NIF CNSS 1 mois Gérant personne physique associée ou non nommé statuts ou AG 50% pouvoirs larges responsabilité civile faute gestion pénale abus biens sociaux banqueroute révocation AG Décisions AG ordinaire annuelle 6 mois clôture approbation comptes affectation résultat quitus extra modification statuts 75% consultation écrite Cession parts libre entre associés agrément tiers 50% sinon rachat Dissolution terme objet réalisé décision 75% justice mésentente paralysie perte 50% capital non reconstitué >100 associés réunion parts Liquidation liquidateur vend biens paie dettes boni partagé radiation RCCM."}
-]}
-]},
-{"titre":"Chapitre 3: AUS Sûretés et AUCE Voies Exécution","sections":[
-{"titre":"Section 1: Sûretés et Saisies","sous":[
-{"titre":"Sous-section 1: Cautionnement Hypothèque Saisie","lecon":"LEÇON INTÉGRALE: Cautionnement art 13-49 Contrat caution s'engage envers créancier payer si débiteur pas Écrit mention somme garantie à peine nullité Simple bénéfice discussion créancier poursuit d'abord débiteur saisit biens puis caution bénéfice division si plusieurs cautions part Solidaire créancier va direct caution sans poursuivre débiteur plus utilisé banques Guinée Proportionné revenus sinon déchéance information annuelle caution par créancier Extinction dette payée terme décharge prescription Caution paye subrogée droits créancier recours débiteur. Hypothèque art 190 immeuble maison terrain Types conventionnelle accord acte notarié obligatoire forcée jugement légale loi vendeur impayé copropriété Assiette immeuble bâti non bâti droit emphytéose usufruit Inscription Conservation Foncière Kaloum bordereau acte notarié 10 ans renouvelable coût 2% rang ordre inscription première payée première cession antériorité Effets préférence payé avant chirographaires sur prix vente suite suit immeuble même vendu tiers Réalisation impayé commandement saisie immobilière TPI vente judiciaire enchères distribution rang Extinction dette payée prescription 10 ans non renouvelée renonciation. Saisie attribution art 77 plus utilisée huissier bloque compte bancaire attribue créancier commandement 8j banque bloque déclare solde verse 100-200k +10% somme Très efficace. Injonction payer art 1 AUCE rapide créance certaine liquide exigible facture billet à ordre requête Président TPI ordonnance signification débiteur 15j opposition sinon exécutoire efficace Guinée pas avocat."}
-]}
-]
-}
-]
-},
-]
-}
-
-DICT_AZ = [
-{"lettre":"A","t":"Abus de confiance","d":"Art 394 CP: Détourner chose remise à charge rendre 1-5 ans ex on te confie 10M terrain tu bouffes."},
-{"lettre":"A","t":"Astreinte","d":"Art 33 AUCE: Somme par jour retard pas exécution jugement ex 200k/jour libérer maison."},
-{"lettre":"B","t":"Bail commercial","d":"Art 69 AUDCG: Bail immeuble fonds commerce durée min 2 ans droit renouvellement indemnité éviction loyer révisable 3 ans."},
-{"lettre":"C","t":"Cautionnement","d":"Art 13 AUS: Caution s'engage payer si débiteur pas écrit somme garantie simple ou solidaire."},
-{"lettre":"C","t":"CCJA","d":"Cour Commune Justice Arbitrage Abidjan 13 juges cassation OHADA casse arrêt Appel Conakry peut évoquer primauté."},
-{"lettre":"H","t":"Habeas Corpus","d":"Ordre juge police présenter détenu 48h sinon libération art 9 Constitution."},
-{"lettre":"M","t":"Mise en demeure","d":"Lettre officielle exécuter 8j sinon tribunal OBLIGATOIRE avant TPI art 54 CPCC huissier 50k."},
-{"lettre":"O","t":"OHADA","d":"Organisation Harmonisation Droit Affaires Afrique 17 pays 10 Actes Uniformes même loi CCJA Abidjan RCCM APIP."},
-{"lettre":"R","t":"RCCM","d":"Registre Commerce Crédit Mobilier numéro commerçant APIP 500k CNI casier statuts obligatoire."},
-{"lettre":"S","t":"Saisie attribution","d":"Art 77 AUCE: Huissier bloque compte bancaire attribue créancier plus utilisée."},
-{"lettre":"T","t":"Titre Foncier","d":"Seul papier propriété terrain Guinée Conservation Kaloum 2-5M 6-12 mois sans occupant précaire 80% arnaques."},
 ]
 
-def moteur_lexique(q):
-    q_low=q.lower().strip()
-    for item in DICT_AZ:
-        if item["t"].lower() in q_low or q_low in item["t"].lower():
-            return item["d"]
-    return f"{q}: (Sources cachées: Google, ChatGPT, Gemini, Légifrance, OHADA.com, Doctrine) En droit guinéen et OHADA, {q} désigne concept juridique précis. Voir chapitres cours détaillés pour leçon intégrale complète avec sections sous-sections."
+LEXIQUE = [
+{"t":"OHADA","d":"Organisation Harmonisation Droit Affaires Afrique 17 pays dont Guinée 10 Actes Uniformes même loi commerciale partout CCJA Abidjan cour suprême RCCM APIP SARL capital 1M."},
+{"t":"Titre Foncier","d":"Seul papier propriété terrain Guinée délivré Conservation Foncière Kaloum après enquête bornage sans occupant précaire 80% arnaques Conakry vérifier avant payer 2-5M."},
+{"t":"Mise en demeure","d":"Lettre officielle exécuter 8j sinon tribunal OBLIGATOIRE avant TPI art 54 CPCC huissier 50k ou recommandée."},
+{"t":"RCCM","d":"Registre Commerce Crédit Mobilier numéro commerçant APIP Kaloum 500k CNI casier statuts obligatoire commerçant légal."},
+{"t":"SARL","d":"Société Responsabilité Limitée 1-100 associés capital min 1M parts 5k responsabilité limitée apports gérant responsable pénale création statuts notaire RCCM APIP NIF."},
+{"t":"Saisie attribution","d":"Art 77 AUCE Huissier bloque compte bancaire attribue créancier plus utilisée commandement 8j banque bloque 100-200k."},
+{"t":"Habeas Corpus","d":"Ordre juge police présenter détenu 48h sinon libération art 9 Constitution protection détention arbitraire."},
+{"t":"QPC","d":"Question Prioritaire Constitutionnalité devant tout tribunal dis loi contraire Constitution transmission Cour Constit abrogation."},
+]
+
+QUIZ = {
+"L1": [{"q":"Constitution 2020 = quelle République?","o":["3e","4e","5e"],"r":1,"e":"4e République référendum 2020 - Constitution actuelle Guinée"}],
+"L2": [{"q":"SARL capital min OHADA?","o":["100k","1M","10M"],"r":1,"e":"1M FCFA depuis Acte Uniforme 2014"}],
+"OHADA": [{"q":"RCCM à?","o":["Mairie","APIP","TPI"],"r":1,"e":"APIP Guinée 500k - Agence Promotion Investissements Privés à Kaloum"}]
+}
 
 def moteur_ai(q):
-    q_low=q.lower()
-    if "dette prison" in q_low or ("dette" in q_low and "prison" in q_low):
-        return "NON prison pour dette contractuelle art 11 Pacte International + Constitution sauf pension alimentaire amende pénale. Menace prison = chantage délit plainte. Recouvrement: mise en demeure huissier 50k, injonction payer Président TPI art 1 AUCE 15j, saisie attribution compte art 77 AUCE."
-    if "terrain" in q_low or "foncier" in q_low:
-        return "Seul Titre Foncier Conservation Kaloum = propriété inattaquable. Sans = occupant précaire. Procédure: acte coutumier chef quartier 2 témoins, demande Kaloum formulaire CNI acte coutumier plan, enquête publique affichage 1 mois, bornage géomètre contradictoire, commission, immatriculation livre foncier Titre duplicata. Coût 2-5M délai 6-12 mois. Arnaques Conakry même terrain vendu 5 fois faux titres Sonfonia vérifier livre foncier avant payer passer notaire virement pas cash."
-    if "sarl" in q_low or "entreprise" in q_low or "rccm" in q_low:
-        return "APIP Kaloum: recherche nom 50k, statuts notaire 300k capital min 1M libéré 50% solde 2 ans, RCCM 500k, NIF gratuit, CNSS, 48h total 1,5M. SARL 1-100 associés parts 5k responsabilité limitée apports gérant responsable pénale abus biens sociaux, AG ordinaire annuelle comptes extra modif statuts 75%."
-    if "ohada" in q_low:
-        return "17 pays même loi affaires 10 Actes Uniformes: AUDCG commerce RCCM bail 2 ans fonds, AUSCGIE sociétés SARL 1M SA 10M SAS libre, AUS sûretés caution hypothèque Conservation, AUPC redressement liquidation, AUCE saisie attribution injonction payer 15j, AUA arbitrage rapide 6 mois confidentiel CCJA Abidjan cour suprême primauté."
-    if "licenciement" in q_low or "salaire" in q_low:
-        return "Mise en demeure huissier 50k décompte salaires, Inspection Travail Kaloum gratuit convocation patron conciliation, si échec Tribunal Travail TPI requête 20k contrat bulletins attestation collègues. Obtiens salaires + dommages licenciement abusif + certificat. Délai 1 an ne démissionne pas."
-    return f"🤖 AI DROIT224 pour '{q}': Analyse complète (sources universelles cachées): 1- Qualification matière civil/pénal/commerce/travail/foncier/OHADA. 2- Textes Constitution 2020 Code civil pénal travail foncier Actes Uniformes OHADA. 3- Procédure mise en demeure 8j huissier obligatoire art 54 CPCC conciliation requête TPI 50k audience jugement 1-2 ans appel 1 mois cassation Cour Suprême ou CCJA Abidjan si OHADA 2 mois. 4- Preuves écrit >500k obligatoire témoignage. Pour '{q}' poste Dossiers Justice analyse multi-experts détaillée."
+    ql=q.lower()
+    if "dette" in ql and "prison" in ql:
+        return "NON prison pour dette contractuelle art 11 Pacte International + Constitution sauf pension alimentaire amende pénale. Menace prison = chantage délit plainte. Recouvrement légal: mise en demeure huissier 50k, injonction payer Président TPI art 1 AUCE 15j opposition sinon exécutoire, saisie attribution compte bancaire art 77 AUCE."
+    if "terrain" in ql or "foncier" in ql:
+        return "Seul Titre Foncier Conservation Kaloum = propriété inattaquable art 544. Sans = occupant précaire. Procédure détaillée: acte coutumier chef quartier 2 témoins, demande Kaloum formulaire CNI acte coutumier plan croquis géomètre 4 photos quittance 500k, enquête publique affichage Mairie terrain 1 mois oppositions possibles, bornage géomètre agréé contradictoire voisins, commission foncière, immatriculation livre foncier numéro Titre Foncier duplicata remis propriétaire. Coût total 2-5M délai 6-12 mois. Arnaques Conakry même terrain vendu 5 fois faux titres Sonfonia Coyah Madina toujours vérifier livre foncier Kaloum avant payer passer notaire virement bancaire tracé pas cash."
+    if "sarl" in ql or "entreprise" in ql:
+        return "APIP Kaloum: recherche nom 50k, statuts notaire 300k capital min 1M FCFA libéré 50% solde 2 ans parts sociales 5k min, RCCM 500k, NIF Direction Impôts gratuit, CNSS, 48h total 1,5M. SARL 1-100 associés responsabilité limitée apports gérant personne physique pouvoirs larges responsabilité civile faute gestion pénale abus biens sociaux banqueroute, AG ordinaire annuelle comptes extra modification statuts 75%, cession parts libre entre associés agrément tiers 50% sinon rachat."
+    if "ohada" in ql:
+        return "17 pays même loi affaires 10 Actes Uniformes: AUDCG commerce RCCM bail 2 ans droit renouvellement fonds commerce, AUSCGIE sociétés SARL 1M SA 10M SAS libre SNC responsabilité indéfinie, AUS sûretés cautionnement simple solidaire gage nantissement fonds hypothèque Conservation Kaloum 10 ans rang, AUPC redressement liquidation déclaration cessation 30j mandat ad hoc conciliation, AUCE saisie attribution bloque compte plus utilisée injonction payer 15j rapide astreinte 200k/jour, AUA arbitrage rapide 6 mois confidentiel CCJA Abidjan centre sentence = jugement Convention New York 170 pays, CCJA Abidjan 13 juges cassation OHADA casse arrêt Appel Conakry peut évoquer rejuge elle-même primauté."
+    return f"AI DROIT224 pour '{q}': Analyse complète: 1- Qualification matière civil/pénal/commerce/travail/foncier/OHADA. 2- Textes Constitution 2020 Code civil pénal travail foncier OHADA AUDCG AUSCGIE AUS AUCE AUA. 3- Procédure mise en demeure 8j huissier obligatoire art 54 CPCC conciliation requête TPI 50k audience jugement 1-2 ans appel 1 mois cassation Cour Suprême ou CCJA Abidjan si OHADA 2 mois. 4- Preuves écrit >500k obligatoire témoignage. Pour '{q}' poste Dossiers Justice analyse multi-experts."
 
 def load_j(f,d):
     if not os.path.exists(f): return d
@@ -163,155 +89,96 @@ def home():
 <link rel="manifest" href="/manifest.json">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}body{background:#050510;color:#fff;font-family:Arial}
-.header{text-align:center;padding:12px;background:radial-gradient(#1a1a4a,#000);border-bottom:3px solid #f9c00f;position:sticky;top:0;z-index:30}
-.tabs{display:flex;gap:3px;padding:5px;background:#0a0a1a;overflow-x:auto;position:sticky;top:58px;z-index:20}
-.tabs button{padding:6px 8px;border-radius:16px;border:1px solid #222;background:#151530;color:#aaa;font-size:8px;font-weight:800;white-space:nowrap}
+.header{text-align:center;padding:14px;background:#0a0a2a;border-bottom:3px solid #f9c00f;position:sticky;top:0;z-index:30}
+.tabs{display:flex;gap:4px;padding:6px;background:#0a0a1a;overflow-x:auto;position:sticky;top:95px;z-index:20}
+.tabs button{padding:7px 10px;border-radius:18px;border:1px solid #222;background:#151530;color:#aaa;font-size:9px;font-weight:800;white-space:nowrap}
 .tabs button.active{background:#f9c00f;color:#000}
-.view{display:none;padding:8px}.view.active{display:block}
-.card{background:#10102a;border:1px solid #1a1a3a;border-radius:10px;padding:9px;margin:6px 0;cursor:pointer}
+.view{display:none;padding:10px}.view.active{display:block}
+.card{background:#10102a;border:1px solid #1a1a3a;border-radius:12px;padding:12px;margin:8px 0;cursor:pointer}
 .card:hover{border-color:#f9c00f}
-.badge{padding:2px 6px;border-radius:10px;font-size:7px;font-weight:900;color:#000;background:#f9c00f}
-input,select,textarea{width:100%;padding:7px;margin:3px 0;border-radius:7px;border:1px solid #222;background:#111;color:#fff;font-size:11px}
-.btn{padding:7px 10px;border-radius:16px;border:none;font-weight:800;background:#f9c00f;color:#000;cursor:pointer;font-size:10px}
-.small{font-size:11px;color:#bbb;line-height:1.6;white-space:pre-wrap}
-.chap{background:#0a0a2a;border-left:3px solid #00e5ff;margin:6px 0;padding:8px;border-radius:6px}
-.sec{margin-left:10px;border-left:2px solid #333;padding-left:8px;margin-top:6px}
-.ssec{margin-left:20px;border-left:2px dashed #555;padding-left:8px;margin-top:4px;background:#08081a;border-radius:4px;padding:6px}
-.breadcrumb{display:flex;gap:6px;font-size:10px;color:#aaa;margin-bottom:8px;flex-wrap:wrap}
-.breadcrumb span{cursor:pointer;color:#00e5ff}
-.download-btn{background:linear-gradient(90deg,#f9c00f,#ff6a00);color:#000;padding:8px 16px;border-radius:20px;font-weight:900;font-size:11px;border:none;cursor:pointer;margin-top:8px}
+.badge{padding:3px 8px;border-radius:12px;font-size:8px;font-weight:900;color:#000;background:#f9c00f}
+input,select,textarea{width:100%;padding:8px;margin:4px 0;border-radius:8px;border:1px solid #222;background:#111;color:#fff;font-size:12px}
+.btn{padding:8px 12px;border-radius:18px;border:none;font-weight:800;background:#f9c00f;color:#000;cursor:pointer;font-size:11px}
+.small{font-size:12px;color:#ddd;line-height:1.7;white-space:pre-wrap}
+.breadcrumb{font-size:11px;color:#aaa;margin-bottom:10px}
+.breadcrumb span{color:#00e5ff;cursor:pointer}
+.download-btn{background:linear-gradient(90deg,#f9c00f,#ff6a00);color:#000;padding:10px 18px;border-radius:25px;font-weight:900;font-size:12px;border:none;cursor:pointer;margin-top:10px}
+.lecon{background:#0a1a0a;border:2px solid #76ff03;padding:14px;border-radius:10px;margin-top:10px}
 </style></head><body>
 <div class="header">
-<h1 style="color:#f9c00f;font-size:22px;font-weight:900;letter-spacing:1px">DROIT224</h1>
-<p style="font-size:7px;color:#aaa">UNIVERSITÉ COMPLÈTE • DOSSIERS > CHAPITRES > SECTIONS > LEÇONS INTÉGRALES</p>
+<h1 style="color:#f9c00f;font-size:26px;font-weight:900">DROIT224</h1>
+<p style="font-size:8px;color:#aaa">DOSSIERS > CHAPITRES > SECTIONS > LEÇONS INTÉGRALES COMPLÈTES</p>
 <button class="download-btn" onclick="downloadApp()">📥 TÉLÉCHARGER L'APP DROIT224</button>
 </div>
 <div class="tabs">
-<button class="active" onclick="showTab('cours',this)">📚 COURS DOSSIERS</button>
-<button onclick="showTab('ohada',this)" style="border-color:#00e5ff;color:#00e5ff">⚖️ OHADA</button>
-<button onclick="showTab('dossier',this)" style="border-color:#ff1744;color:#ff1744">📂 DOSSIERS</button>
+<button class="active" onclick="showTab('cours',this)">📚 COURS</button>
 <button onclick="showTab('lex',this)">📖 LEXIQUE</button>
 <button onclick="showTab('quiz',this)">🎮 QUIZ</button>
 <button onclick="showTab('faq',this)" style="border-color:#76ff03;color:#76ff03">❓ FAQ</button>
+<button onclick="showTab('dossier',this)" style="border-color:#ff1744">📂 DOSSIERS</button>
 <button onclick="showTab('forum',this)">💬 CERCLE</button>
 </div>
 
-<div id="cours" class="view active"><div id="breadcrumbCours" class="breadcrumb"></div><div id="gridCours"></div></div>
-<div id="ohada" class="view"><div id="breadcrumbOhada" class="breadcrumb"></div><div id="gridOhada"></div></div>
-<div id="dossier" class="view"><div class="card" style="border:2px solid #ff1744;background:#1a0000"><h4>Dossiers Justice - Analyse Multi-Experts</h4><select id="dType"><option>Licenciement</option><option>Dette</option><option>Terre Foncier</option><option>Divorce</option><option>Vol Escroquerie</option><option>Accident</option><option>Loyer</option><option>Contrat</option><option>Succession</option></select><textarea id="dDesc" rows="3" placeholder="Décris cas détaillé..."></textarea><input id="dNom" placeholder="Ton nom"><button class="btn" style="background:#ff1744;color:#fff;width:100%" onclick="postDossier()">Soumettre Dossier</button><div id="dAuto"></div></div><div id="gridDossier"></div></div>
-<div id="lex" class="view"><div class="card" style="border:2px solid #00e5ff"><h4>Lexique Juridique A-Z</h4><div style="display:flex;gap:3px"><input id="lexIn" placeholder="Tape mot..." oninput="searchLex()" style="flex:1"><select id="lexLettre" onchange="filterLettre()" style="width:70px"><option value="">A-Z</option><option>A</option><option>B</option><option>C</option><option>H</option><option>M</option><option>O</option><option>R</option><option>S</option><option>T</option></select></div><div id="lexAuto"></div></div><div id="gridLex"></div></div>
-<div id="quiz" class="view"><div class="card" style="text-align:center;border:2px solid #f9c00f"><select id="qLvl"><option>L1</option><option>L2</option><option>L3</option><option>OHADA</option></select><button class="btn" onclick="startQuiz()">LANCER QUIZ</button><div id="qZone" style="text-align:left;margin-top:10px"></div></div></div>
-<div id="faq" class="view">
-<div class="card" style="border:2px solid #76ff03;background:linear-gradient(135deg,#001a00,#000)"><h4 style="color:#76ff03">❓ FAQ - Assistant Juridique Intelligent</h4><p class="small" style="color:#aaa">Pose n'importe quelle question de droit, je réponds comme un AI complet d'aide juridique</p><div style="display:flex;gap:4px;margin-top:8px"><input id="faqAsk" placeholder="Ex: Comment créer SARL? Terrain Sonfonia..."><button class="btn" style="background:#76ff03" onclick="askFaq()">Demander</button></div><div id="faqAuto"></div></div>
-<div id="gridFaq"></div>
-</div>
-<div id="forum" class="view"><div class="card" style="border:2px solid #f9c00f"><select id="fRole"><option>Étudiant</option><option>Professeur</option><option>Juge</option><option>Avocat</option><option>Docteur</option><option>Enseignant</option><option>Juriste</option></select><input id="fNom" placeholder="Nom"><textarea id="fMsg" placeholder="Question"></textarea><button class="btn" style="width:100%" onclick="postForum()">Poster Cercle</button></div><div id="gridForum"></div></div>
+<div id="cours" class="view active"><div id="bcCours" class="breadcrumb"></div><div id="gridCours"></div></div>
+<div id="lex" class="view"><div class="card" style="border:2px solid #00e5ff"><h4>Lexique Juridique</h4><input id="lexIn" placeholder="Tape mot..." oninput="searchLex()"><div id="lexAuto"></div></div><div id="gridLex"></div></div>
+<div id="quiz" class="view"><div class="card" style="text-align:center;border:2px solid #f9c00f"><select id="qLvl"><option>L1</option><option>L2</option><option>OHADA</option></select><button class="btn" onclick="startQuiz()">LANCER QUIZ</button><div id="qZone" style="text-align:left;margin-top:10px"></div></div></div>
+<div id="faq" class="view"><div class="card" style="border:2px solid #76ff03;background:linear-gradient(135deg,#001a00,#000)"><h4 style="color:#76ff03">❓ FAQ - Assistant AI Juridique</h4><p class="small" style="color:#aaa">Pose n'importe quelle question de droit, comme un AI complet d'aide</p><div style="display:flex;gap:4px;margin-top:8px"><input id="faqAsk" placeholder="Ex: Comment créer SARL?"><button class="btn" style="background:#76ff03" onclick="askFaq()">Demander</button></div><div id="faqAuto"></div></div></div>
+<div id="dossier" class="view"><div class="card" style="border:2px solid #ff1744;background:#1a0000"><h4>Dossiers Justice</h4><select id="dType"><option>Licenciement</option><option>Dette</option><option>Terre Foncier</option><option>Divorce</option><option>Vol</option><option>Contrat</option></select><textarea id="dDesc" rows="3" placeholder="Décris cas..."></textarea><input id="dNom" placeholder="Ton nom"><button class="btn" style="background:#ff1744;color:#fff;width:100%" onclick="postDossier()">Soumettre</button><div id="dAuto"></div></div><div id="gridDossier"></div></div>
+<div id="forum" class="view"><div class="card" style="border:2px solid #f9c00f"><select id="fRole"><option>Étudiant</option><option>Professeur</option><option>Juge</option><option>Avocat</option><option>Docteur</option></select><input id="fNom" placeholder="Nom"><textarea id="fMsg" placeholder="Question"></textarea><button class="btn" style="width:100%" onclick="postForum()">Poster</button></div><div id="gridForum"></div></div>
 
 <script>
 let DB={};
-let navCours = {level:'matieres', matiere:null, chapitre:null, section:null, sous:null};
-let navOhada = {level:'matieres', matiere:null, chapitre:null};
-async function load(){DB=await fetch('/api/all').then(r=>r.json());renderCours();renderOhada();renderDossier();renderLex();renderFaq();renderForum();}
+let nav={level:'matieres', matId:null, chapIdx:null, secIdx:null};
+async function load(){DB=await fetch('/api/all').then(r=>r.json());renderCours();renderLex();renderDossier();renderForum();}
 function showTab(id,btn){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
 function renderCours(){
  let h=''; let bc='';
- if(navCours.level=='matieres'){
-   bc=`<span>📚 Matières</span>`;
+ if(nav.level=='matieres'){
+   bc='📚 Matières Droit';
    (DB.cours||[]).forEach(m=>{
-     h+=`<div class=card onclick="openMatiere('${m.id}')"><div style=display:flex;justify-content:space-between"><b>${m.icon} ${m.matiere}</b><span class=badge>${m.niveau}</span></div><p class=small>${m.desc}</p><small style=color:#00e5ff>${m.prog.length} chapitres • Ouvrir dossier 📁</small></div>`;
+     h+=`<div class=card onclick="openMatiere('${m.id}')"><b>${m.icon} ${m.matiere}</b> <span class=badge>${m.niveau}</span><p class=small style=margin-top:6px>${m.chapitres.length} chapitres - Ouvrir dossier 📁</p></div>`;
    });
- } else if(navCours.level=='chapitres'){
-   let mat = DB.cours.find(x=>x.id==navCours.matiere);
-   bc=`<span onclick="navCours.level='matieres';renderCours()">📚 Matières</span> > <span>${mat.matiere}</span>`;
-   mat.prog.forEach((ch, idx)=>{
-     h+=`<div class=card onclick="openChapitre(${idx})"><b style=color:#00e5ff>📁 ${ch.titre}</b><p class=small>${ch.sections.length} sections • Voir programme</p></div>`;
-   });
- } else if(navCours.level=='sections'){
-   let mat = DB.cours.find(x=>x.id==navCours.matiere);
-   let ch = mat.prog[navCours.chapitre];
-   bc=`<span onclick="navCours.level='matieres';renderCours()">📚</span> > <span onclick="navCours.level='chapitres';renderCours()">${mat.matiere}</span> > <span>${ch.titre}</span>`;
-   ch.sections.forEach((sec, idx)=>{
-     h+=`<div class=card onclick="openSection(${idx})"><b>📂 ${sec.titre}</b><p class=small>${sec.sous.length} sous-sections • Voir sections</p></div>`;
-   });
- } else if(navCours.level=='sous'){
-   let mat = DB.cours.find(x=>x.id==navCours.matiere);
-   let ch = mat.prog[navCours.chapitre];
-   let sec = ch.sections[navCours.section];
-   bc=`<span onclick="navCours.level='matieres';renderCours()">📚</span> > <span onclick="navCours.level='chapitres';renderCours()">${mat.matiere}</span> > <span onclick="navCours.level='sections';renderCours()">${ch.titre}</span> > <span>${sec.titre}</span>`;
-   sec.sous.forEach((ssec, idx)=>{
-     h+=`<div class=card onclick="openLecon(${idx})"><b>📄 ${ssec.titre}</b><p class=small style=color:#76ff03>Cliquez pour leçon intégrale complète</p></div>`;
-   });
- } else if(navCours.level=='lecon'){
-   let mat = DB.cours.find(x=>x.id==navCours.matiere);
-   let ch = mat.prog[navCours.chapitre];
-   let sec = ch.sections[navCours.section];
-   let ssec = sec.sous[navCours.sous];
-   bc=`<span onclick="navCours.level='matieres';renderCours()">📚</span> > <span onclick="navCours.level='chapitres';renderCours()">${mat.matiere}</span> > <span onclick="navCours.level='sections';renderCours()">${ch.titre}</span> > <span onclick="navCours.level='sous';renderCours()">${sec.titre}</span> > <span>${ssec.titre}</span>`;
-   h=`<div class=card style=border:2px solid #76ff03><h3 style=color:#f9c00f>${ssec.titre}</h3><p class=small style=margin-top:10px;font-size:12px;line-height:1.8">${ssec.lecon}</p><div style=margin-top:12px;display:flex;gap:6px"><button class=btn onclick="navCours.level='sous';renderCours()">⬅️ Retour</button><button class=btn style=background:#00e5ff" onclick="navCours.level='sous';renderCours()">✅ Leçon comprise</button></div></div>`;
+ } else if(nav.level=='chapitres'){
+   let mat=DB.cours.find(x=>x.id==nav.matId);
+   bc=`<span onclick="goMatieres()">📚 Matières</span> > ${mat.matiere}`;
+   mat.chapitres.forEach((ch,i)=>{h+=`<div class=card onclick="openChap(${i})"><b style=color:#00e5ff>📁 ${ch.titre}</b><p class=small>${ch.sections.length} sections</p></div>`});
+   h+=`<button class=btn onclick="goMatieres()">⬅️ Retour Matières</button>`;
+ } else if(nav.level=='sections'){
+   let mat=DB.cours.find(x=>x.id==nav.matId);
+   let ch=mat.chapitres[nav.chapIdx];
+   bc=`<span onclick="goMatieres()">📚</span> > <span onclick="goChapitres()">${mat.matiere}</span> > ${ch.titre}`;
+   ch.sections.forEach((sec,i)=>{h+=`<div class=card onclick="openSec(${i})"><b>📂 ${sec.titre}</b><p class=small>Clique pour leçon intégrale complète non résumée</p></div>`});
+   h+=`<button class=btn onclick="goChapitres()">⬅️ Retour Chapitres</button>`;
+ } else if(nav.level=='lecon'){
+   let mat=DB.cours.find(x=>x.id==nav.matId);
+   let ch=mat.chapitres[nav.chapIdx];
+   let sec=ch.sections[nav.secIdx];
+   bc=`<span onclick="goMatieres()">📚</span> > <span onclick="goChapitres()">${mat.matiere}</span> > <span onclick="goSections()">${ch.titre}</span> > ${sec.titre}`;
+   h=`<div class=card style=border:2px solid #76ff03"><h3 style=color:#f9c00f>${sec.titre}</h3><div class=lecon><p class=small>${sec.lecon}</p></div><div style=margin-top:12px;display:flex;gap:6px"><button class=btn onclick="goSections()">⬅️ Retour</button><button class=btn style=background:#00e5ff" onclick="goSections()">✅ Leçon comprise</button></div></div>`;
  }
- document.getElementById('breadcrumbCours').innerHTML=bc;
+ document.getElementById('bcCours').innerHTML=bc;
  document.getElementById('gridCours').innerHTML=h;
 }
-function openMatiere(id){navCours.matiere=id;navCours.level='chapitres';renderCours();}
-function openChapitre(idx){navCours.chapitre=idx;navCours.level='sections';renderCours();}
-function openSection(idx){navCours.section=idx;navCours.level='sous';renderCours();}
-function openLecon(idx){navCours.sous=idx;navCours.level='lecon';renderCours();}
-
-function renderOhada(){
- let h=''; let bc='';
- if(navOhada.level=='matieres'){
-   bc=`<span>⚖️ OHADA Matières</span>`;
-   (DB.ohada||[]).forEach((m, idx)=>{
-     h+=`<div class=card onclick="openOhadaMatiere(${idx})"><b style=color:#00e5ff>${m.matiere}</b><p class=small>${m.prog.length} chapitres détaillés - Ouvrir dossier</p></div>`;
-   });
- } else if(navOhada.level=='chapitres'){
-   let mat = DB.ohada[navOhada.matiere];
-   bc=`<span onclick="navOhada.level='matieres';renderOhada()">⚖️ OHADA</span> > <span>${mat.matiere}</span>`;
-   mat.prog.forEach((ch, idx)=>{
-     h+=`<div class=card onclick="openOhadaChap(${idx})"><b style=color:#00e5ff>📁 ${ch.titre}</b><p class=small>${ch.sections.length} sections</p></div>`;
-   });
- } else if(navOhada.level=='sections'){
-   let mat = DB.ohada[navOhada.matiere];
-   let ch = mat.prog[navOhada.chapitre];
-   bc=`<span onclick="navOhada.level='matieres';renderOhada()">⚖️ OHADA</span> > <span onclick="navOhada.level='chapitres';renderOhada()">${mat.matiere}</span> > <span>${ch.titre}</span>`;
-   ch.sections.forEach(sec=>{
-     sec.sous.forEach(ssec=>{
-       h+=`<div class=card><b>${sec.titre} - ${ssec.titre}</b><p class=small style=margin-top:6px">${ssec.lecon}</p></div>`;
-     });
-   });
-   h+=`<button class=btn onclick="navOhada.level='chapitres';renderOhada()">⬅️ Retour</button>`;
- }
- document.getElementById('breadcrumbOhada').innerHTML=bc;
- document.getElementById('gridOhada').innerHTML=h;
-}
-function openOhadaMatiere(idx){navOhada.matiere=idx;navOhada.level='chapitres';renderOhada();}
-function openOhadaChap(idx){navOhada.chapitre=idx;navOhada.level='sections';renderOhada();}
-
-function renderDossier(){let h='';(DB.dossiers||[]).slice().reverse().forEach(d=>{h+=`<div class=card style=border:1px solid #ff1744"><b style=font-size:11px>📂 ${d.type}</b><small style=color:#666"> ${d.time} par ${d.nom}</small><p class=small style=margin:6px 0"><b>Cas:</b> ${d.desc}</p><div style=background:#111;padding:6px;border-radius:6px;margin:6px 0"><small style=color:#f9c00f"><b>AI Analyse:</b> ${d.auto||''}</small></div><div style=margin-left:10px;border-left:2px solid #f9c00f;padding-left:8px">${(d.analyses||[]).map(a=>`<div style=margin:6px 0;padding:6px;background:#0a0a1a;border-radius:6px"><span class=badge>${a.role}</span> <b style=font-size:11px">${a.nom}</b><p class=small style=margin-top:4px">${a.msg}</p></div>`).join('')}</div><div style=display:flex;gap:3px;margin-top:8px"><select id=role-${d.id} style=width:28%;font-size:8px"><option>Étudiant</option><option>Professeur</option><option>Juge</option><option>Avocat</option><option>Docteur</option></select><input id=name-${d.id} placeholder="Nom" style=width:22%;font-size:8px"><input id=msg-${d.id} placeholder="Analyse..." style=width:50%;font-size:8px"><button class=btn style=padding:4px 6px;font-size:8px" onclick=analyseDossier('${d.id}')>Analyser</button></div></div>`});gridDossier.innerHTML=h;}
-function renderLex(){let h='';(DB.lexique||[]).forEach(l=>h+=`<div class=card><b>[${l.lettre}] ${l.t}</b><p class=small>${l.d}</p></div>`);gridLex.innerHTML=h;}
-function filterLettre(){let lettre=lexLettre.value;if(!lettre){renderLex();return}let filt=(DB.lexique||[]).filter(l=>l.lettre==lettre);let h='';filt.forEach(l=>h+=`<div class=card><b>[${l.lettre}] ${l.t}</b><p class=small>${l.d}</p></div>`);gridLex.innerHTML=h;}
-async function searchLex(){let q=lexIn.value;if(q.length<1){lexAuto.innerHTML='';renderLex();return}let res=await fetch('/api/search?q='+encodeURIComponent(q)).then(r=>r.json());lexAuto.innerHTML=`<div class=card style=background:#002a2a;border-color:#00e5ff;margin-top:8px"><p class=small>${res.ans}</p></div>`;}
-function renderFaq(){let h='';(DB.faq||[]).forEach(f=>h+=`<div class=card><b style=font-size:12px>Q: ${f.q}</b><p style=color:#76ff03;margin-top:6px" class=small>R: ${f.r}</p></div>`);gridFaq.innerHTML=h;}
-async function askFaq(){let q=faqAsk.value;if(!q)return;let res=await fetch('/api/search_faq?q='+encodeURIComponent(q)).then(r=>r.json());faqAuto.innerHTML+=`<div class=card style=background:#001a00;border-color:#76ff03;margin-top:10px"><div style=display:flex;justify-content:space-between"><b style=color:#76ff03>👤 Toi:</b><small style=color:#666">${new Date().toLocaleTimeString()}</small></div><p class=small style=margin:6px 0">${q}</p><div style=border-top:1px solid #222;margin-top:8px;padding-top:8px"><b style=color:#00e5ff>🤖 FAQ AI:</b><p class=small style=margin-top:6px">${res.ans}</p></div></div>`;faqAsk.value='';faqAuto.scrollIntoView();}
-async function postDossier(){let d={type:dType.value,desc:dDesc.value,nom:dNom.value};if(!d.desc)return alert('Décris cas');let res=await fetch('/api/search_faq?q='+encodeURIComponent(d.type+' '+d.desc)).then(r=>r.json());d.auto=res.ans;await fetch('/api/dossiers',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});dDesc.value='';load();}
-async function analyseDossier(id){let role=document.getElementById('role-'+id).value,nom=document.getElementById('name-'+id).value,msg=document.getElementById('msg-'+id).value;if(!nom||!msg)return alert('Nom et analyse');await fetch('/api/dossiers/analyse',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,role,nom,msg})});load();}
-let cq=[],qi=0,sc=0;function startQuiz(){let lvl=qLvl.value;cq=DB.quiz[lvl]||[];qi=0;sc=0;showQ();}
-function showQ(){if(qi>=cq.length){qZone.innerHTML=`<h2 style=text-align:center>${sc}/${cq.length}</h2><div style=text-align:center;font-size:36px">${sc==cq.length?'🏆 OR':sc>=3?'🥈 ARGENT':'🥉 BRONZE'}</div><button class=btn onclick=startQuiz()>Rejouer</button>`;return}let q=cq[qi];let h=`<h4 style=margin:10px 0;font-size:12px>Q${qi+1}/${cq.length}: ${q.q}</h4>`;q.o.forEach((o,i)=>h+=`<div class=opt onclick=checkQ(${i})>${o}</div>`);qZone.innerHTML=h;}
-function checkQ(i){let q=cq[qi];let ok=i==q.r;if(ok)sc++;qZone.innerHTML+=`<div class=card style=background:${ok?'#001a00':'#1a0000'};margin-top:8px"><b>${ok?'✅':'❌'} ${q.e}</b><br><button class=btn onclick="qi++;showQ()" style=margin-top:6px>Suivant</button></div>`;}
-function renderForum(){let h='';(DB.forum||[]).slice().reverse().forEach(m=>{h+=`<div class=card style=border-left:3px solid #f9c00f"><span class=badge>${m.role}</span> <b style=font-size:11px">${m.nom}</b> <small style=color:#666">${m.time}</small><p class=small style=margin:6px 0">${m.msg}</p></div>`});gridForum.innerHTML=h;}
-async function postForum(){let d={role:fRole.value,nom:fNom.value,msg:fMsg.value};if(!d.nom||!d.msg)return;await fetch('/api/forum',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});fMsg.value='';load();}
-function downloadApp(){
- if('serviceWorker' in navigator){
-   alert('📥 DROIT224 - Pour télécharger:\\n\\n1. Sur Chrome: Clique menu ⋮ > Installer l\\'app ou Ajouter à écran accueil\\n2. Sur iPhone Safari: Partage > Sur écran accueil\\n3. L\\'app s\\'installera comme vraie app!\\n\\nOu va sur droit224.com et garde le site!');
- } else {
-   alert('📥 Pour télécharger DROIT224:\\nAjoute cette page à ton écran d\\'accueil:\\nChrome: Menu > Ajouter à écran accueil\\nTu auras l\\'icône DROIT224 comme app!');
- }
- // PWA install prompt
- if(window.deferredPrompt){window.deferredPrompt.prompt();}
-}
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e)=>{e.preventDefault();deferredPrompt=e;window.deferredPrompt=e;});
-load();setInterval(load,20000);
+function openMatiere(id){nav.matId=id;nav.level='chapitres';renderCours();}
+function openChap(i){nav.chapIdx=i;nav.level='sections';renderCours();}
+function openSec(i){nav.secIdx=i;nav.level='lecon';renderCours();}
+function goMatieres(){nav.level='matieres';renderCours();}
+function goChapitres(){nav.level='chapitres';renderCours();}
+function goSections(){nav.level='sections';renderCours();}
+function renderLex(){let h='';(DB.lexique||[]).forEach(l=>{h+=`<div class=card><b>${l.t}</b><p class=small style=margin-top:4px">${l.d}</p></div>`});document.getElementById('gridLex').innerHTML=h;}
+async function searchLex(){let q=document.getElementById('lexIn').value;if(q.length<2){document.getElementById('lexAuto').innerHTML='';renderLex();return}let res=await fetch('/api/search?q='+encodeURIComponent(q)).then(r=>r.json());document.getElementById('lexAuto').innerHTML=`<div class=card style=background:#002a2a;border-color:#00e5ff"><p class=small>${res.ans}</p></div>`;}
+function renderDossier(){let h='';(DB.dossiers||[]).slice().reverse().forEach(d=>{h+=`<div class=card style=border:1px solid #ff1744"><b>📂 ${d.type}</b> <small style=color:#666">${d.time} par ${d.nom}</small><p class=small style=margin:6px 0">${d.desc}</p><div style=background:#111;padding:6px;border-radius:6px"><small style=color:#f9c00f"><b>AI:</b> ${d.auto||''}</small></div></div>`});document.getElementById('gridDossier').innerHTML=h;}
+async function postDossier(){let d={type:document.getElementById('dType').value,desc:document.getElementById('dDesc').value,nom:document.getElementById('dNom').value};if(!d.desc)return alert('Décris cas');let res=await fetch('/api/search_faq?q='+encodeURIComponent(d.type+' '+d.desc)).then(r=>r.json());d.auto=res.ans;await fetch('/api/dossiers',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});document.getElementById('dDesc').value='';load();}
+async function askFaq(){let q=document.getElementById('faqAsk').value;if(!q)return;let res=await fetch('/api/search_faq?q='+encodeURIComponent(q)).then(r=>r.json());document.getElementById('faqAuto').innerHTML+=`<div class=card style=background:#001a00;border-color:#76ff03;margin-top:10px"><b style=color:#76ff03>👤 Toi: ${q}</b><div style=border-top:1px solid #222;margin-top:8px;padding-top:8px"><b style=color:#00e5ff>🤖 FAQ AI:</b><p class=small style=margin-top:6px">${res.ans}</p></div></div>`;document.getElementById('faqAsk').value='';}
+let cq=[],qi=0,sc=0;
+function startQuiz(){let lvl=document.getElementById('qLvl').value;cq=DB.quiz[lvl]||[];qi=0;sc=0;showQ();}
+function showQ(){if(qi>=cq.length){document.getElementById('qZone').innerHTML=`<h2 style=text-align:center>${sc}/${cq.length}</h2><button class=btn onclick=startQuiz()>Rejouer</button>`;return}let q=cq[qi];let h=`<h4 style=margin:10px 0;font-size:12px>Q${qi+1}: ${q.q}</h4>`;q.o.forEach((o,i)=>{h+=`<div class=card" style="padding:8px;margin:4px 0" onclick="checkQ(${i})">${o}</div>`});document.getElementById('qZone').innerHTML=h;}
+function checkQ(i){let q=cq[qi];let ok=i==q.r;if(ok)sc++;document.getElementById('qZone').innerHTML+=`<div class=card style=background:${ok?'#001a00':'#1a0000'};margin-top:8px"><b>${ok?'✅':'❌'} ${q.e}</b><br><button class=btn onclick="qi++;showQ()" style=margin-top:6px>Suivant</button></div>`;}
+function renderForum(){let h='';(DB.forum||[]).slice().reverse().forEach(m=>{h+=`<div class=card style=border-left:3px solid #f9c00f"><span class=badge>${m.role}</span> <b style=font-size:11px">${m.nom}</b> <small style=color:#666">${m.time}</small><p class=small style=margin:6px 0">${m.msg}</p></div>`});document.getElementById('gridForum').innerHTML=h;}
+async function postForum(){let d={role:document.getElementById('fRole').value,nom:document.getElementById('fNom').value,msg:document.getElementById('fMsg').value};if(!d.nom||!d.msg)return alert('Nom et message');await fetch('/api/forum',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});document.getElementById('fMsg').value='';load();}
+function downloadApp(){alert('📥 TÉLÉCHARGER DROIT224:\\n\\n1. Chrome Android: Menu ⋮ > Installer application ou Ajouter à écran accueil\\n2. iPhone: Partage (carré flèche) > Sur écran accueil > Ajouter\\n3. Tu auras icône DROIT224 comme vraie app! PWA - Pas besoin Play Store!');if(window.deferredPrompt){window.deferredPrompt.prompt();}}
+let deferredPrompt;window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();deferredPrompt=e;window.deferredPrompt=e;});
+load();
 </script></body></html>
 """
 
@@ -319,30 +186,20 @@ load();setInterval(load,20000);
 def manifest():
     return jsonify({"name":"DROIT224","short_name":"DROIT224","start_url":"/","display":"standalone","background_color":"#050510","theme_color":"#f9c00f","icons":[{"src":"https://cdn-icons-png.flaticon.com/512/1087/1087815.png","sizes":"192x192","type":"image/png"}]})
 
-QUIZ_DATA = {
-    "L1":[{"q":"Constitution 2020 = quelle République?","o":["3e","4e","5e"],"r":1,"e":"4e République référendum 2020"},{"q":"Garde à vue max?","o":["24h","48h renouvelable","7j"],"r":1,"e":"48h x2=96h"},{"q":"OHADA pays?","o":["10","17","54"],"r":1,"e":"17 pays membres"}],
-    "L2":[{"q":"Crime jugé par?","o":["TPI","Assises","Suprême"],"r":1,"e":"Crime = Cour Assises jury"},{"q":"SARL capital min?","o":["100k","1M","10M"],"r":1,"e":"1M FCFA depuis 2014"}],
-    "L3":[{"q":"Titre Foncier faux?","o":["Valable","Danger","Gratuit"],"r":1,"e":"80% arnaques Conakry vérifier Kaloum"},{"q":"Pourvoi délai?","o":["15j","2 mois","1 an"],"r":1,"e":"2 mois après arrêt Appel"}],
-    "OHADA":[{"q":"OHADA =?","o":["Harmonisation Droit Affaires","Humanitaire","Douane"],"r":0,"e":"Organisation Harmonisation Droit Affaires Afrique"},{"q":"RCCM à?","o":["Mairie","APIP","TPI"],"r":1,"e":"APIP Guinée 500k"}],
-}
-
-def load_j(f,d):
-    if not os.path.exists(f): return d
-    try: return json.load(open(f,"r",encoding="utf-8"))
-    except: return d
-def save_j(f,d): json.dump(d, open(f,"w",encoding="utf-8"), ensure_ascii=False, indent=2)
-
 @app.route("/api/all")
 def all_api():
-    dossiers=load_j("dossiers_v11.json", [])
-    faq_extra=load_j("faq_extra_v11.json", [])
-    all_faq=[{"q":"Prison pour dette?","r":"NON interdit sauf pension alimentaire."},{"q":"Terrain?","r":"Seul Titre Foncier Kaloum = propriété!"}] + faq_extra
-    return jsonify({"cours":UNIVERSITE,"ohada":UNIVERSITE,"lexique":DICT_AZ,"quiz":QUIZ_DATA,"faq":all_faq,"dossiers":dossiers,"forum":load_j("forum_v11.json", [])})
+    dossiers=load_j("dossiers_v13.json", [])
+    forum=load_j("forum_v13.json", [])
+    return jsonify({"cours":COURS,"lexique":LEXIQUE,"quiz":QUIZ,"dossiers":dossiers,"forum":forum})
 
 @app.route("/api/search")
 def search_api():
     q=request.args.get("q","")
-    return jsonify({"ans":moteur_lexique(q)})
+    ql=q.lower()
+    for item in LEXIQUE:
+        if item["t"].lower() in ql or ql in item["t"].lower():
+            return jsonify({"ans":item["d"]})
+    return jsonify({"ans":f"{q}: Définition complète en droit guinéen et OHADA, voir cours détaillés dossiers > chapitres > sections > leçons intégrales non résumées."})
 
 @app.route("/api/search_faq")
 def search_faq_api():
@@ -352,30 +209,20 @@ def search_faq_api():
 @app.route("/api/dossiers", methods=["POST"])
 def dossiers_post():
     d=request.get_json()
-    alld=load_j("dossiers_v11.json", [])
-    alld.append({"id":uuid.uuid4().hex[:5],"type":d.get("type",""),"desc":d.get("desc",""),"nom":d.get("nom",""),"time":datetime.now().strftime("%d/%m %H:%M"),"auto":d.get("auto",""),"analyses":[]})
-    save_j("dossiers_v11.json", alld)
-    return jsonify({"ok":True})
-
-@app.route("/api/dossiers/analyse", methods=["POST"])
-def dossier_analyse():
-    d=request.get_json()
-    alld=load_j("dossiers_v11.json", [])
-    for dos in alld:
-        if dos["id"]==d.get("id"):
-            dos.setdefault("analyses",[]).append({"role":d.get("role",""),"nom":d.get("nom",""),"msg":d.get("msg","")})
-    save_j("dossiers_v11.json", alld)
+    alld=load_j("dossiers_v13.json", [])
+    alld.append({"id":uuid.uuid4().hex[:5],"type":d.get("type",""),"desc":d.get("desc",""),"nom":d.get("nom",""),"time":datetime.now().strftime("%d/%m %H:%M"),"auto":d.get("auto","")})
+    save_j("dossiers_v13.json", alld)
     return jsonify({"ok":True})
 
 @app.route("/api/forum", methods=["GET","POST"])
 def forum_api():
     if request.method=="POST":
         d=request.get_json()
-        allf=load_j("forum_v11.json", [])
+        allf=load_j("forum_v13.json", [])
         allf.append({"id":uuid.uuid4().hex[:5],"role":d.get("role",""),"nom":d.get("nom",""),"msg":d.get("msg",""),"time":datetime.now().strftime("%H:%M")})
-        save_j("forum_v11.json", allf)
+        save_j("forum_v13.json", allf)
         return jsonify({"ok":True})
-    return jsonify(load_j("forum_v11.json", []))
+    return jsonify(load_j("forum_v13.json", []))
 
 if __name__=="__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT",5000)))
